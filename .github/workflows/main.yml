@@ -1,0 +1,30 @@
+name: Compilar Suc Softwares
+
+on:
+  push:
+    branches: [ main ] # Isso faz o GitHub compilar toda vez que você salvar um arquivo
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest # Aqui o GitHub abre um Windows virtual para você
+
+    steps:
+    - name: Baixando os arquivos do repositório
+      uses: actions/checkout@v3
+
+    - name: Configurando o Compilador MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Restaurando dependências (NuGet)
+      run: msbuild -t:restore
+
+    - name: Criando o arquivo .EXE (Release)
+      run: msbuild SucSoftwares.csproj /p:Configuration=Release /p:Platform="Any CPU"
+
+    - name: Disponibilizar para Download
+      uses: actions/upload-artifact@v3
+      with:
+        name: Suc-Softwares-Pronto
+        path: bin/Release/ # Onde o .exe vai estar escondido após compilar
