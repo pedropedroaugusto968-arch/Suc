@@ -3,28 +3,29 @@ name: Compilar Suc Softwares
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch: # Permite rodar manualmente se precisar
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Baixando os arquivos
-      uses: actions/checkout@v4 # Atualizado para v4
+    - name: Baixando Arquivos
+      uses: actions/checkout@v4
 
     - name: Configurando MSBuild
-      uses: microsoft/setup-msbuild@v2 # Atualizado para v2
+      uses: microsoft/setup-msbuild@v2
 
-    - name: Restaurando NuGet
+    - name: Restaurando dependencias
       run: msbuild -t:restore
 
-    - name: Criando o EXE
+    - name: Criando o EXE (Release)
       run: msbuild SucSoftwares.csproj /p:Configuration=Release /p:Platform="Any CPU"
 
     - name: Disponibilizar para Download
-      uses: actions/upload-artifact@v4 # O segredo está aqui: Mudamos para v4
+      uses: actions/upload-artifact@v4
       with:
         name: Suc-Softwares-Pronto
-        path: bin/Release/
+        path: |
+          **/*.exe
+          **/*.dll
