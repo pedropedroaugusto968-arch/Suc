@@ -1,0 +1,24 @@
+name: Gerar Suc Software EXE
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Compilar Projeto
+      run: msbuild SucSoftwares.csproj /p:Configuration=Release
+
+    - name: Upload do Executável
+      uses: actions/upload-artifact@v3
+      with:
+        name: SucSoftwares-EXE
+        path: bin/Release/SucSoftwares.exe
