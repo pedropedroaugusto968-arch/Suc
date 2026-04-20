@@ -1,31 +1,24 @@
-name: Compilar Suc Softwares
+name: Compilar Suc Softwares Pro
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Permite rodar manualmente se precisar
 
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
-    - name: Baixando Arquivos
-      uses: actions/checkout@v4
-
-    - name: Configurando MSBuild
+    - uses: actions/checkout@v4
+    - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
-
-    - name: Restaurando dependencias
+    - name: Restore
       run: msbuild -t:restore
-
-    - name: Criando o EXE (Release)
+    - name: Build
       run: msbuild SucSoftwares.csproj /p:Configuration=Release /p:Platform="Any CPU"
-
-    - name: Disponibilizar para Download
+    - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: Suc-Softwares-Pronto
+        name: Suc-Softwares-Final
         path: |
           **/*.exe
           **/*.dll
