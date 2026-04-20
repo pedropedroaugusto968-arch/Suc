@@ -6,8 +6,8 @@
     <AssemblyName>SucSoftwares</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
     <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Drawing" />
